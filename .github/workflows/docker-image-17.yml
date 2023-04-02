@@ -289,7 +289,9 @@ jobs:
           path: ./dep/ # download the artifact directly into the static folder
 
       - name: ls
-        run: ls -la
+        run: | 
+          pwd
+          ls -la
 
       - name: Docker Setup Buildx
         uses: docker/setup-buildx-action@v2.5.0
