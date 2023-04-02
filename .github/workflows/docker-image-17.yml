@@ -29,20 +29,19 @@ jobs:
         id: cache-check
         uses: actions/cache@v2
         with:
-          path: ./dep/ # download the artifact directly into the static folder
+          path: archive/ # download the artifact directly into the static folder
           key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_ARM_32 }}
           restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_ARM_32 }}
           
       - name: Validate Cache
         id: cache-validation
         run: |
-          if [ -s "./dep/arch" ] && [ "${{ steps.cache-check.outputs.cache-hit }}" != 'true' ]
+          if [ -s "./archive/arch" ] && [ "${{ steps.cache-check.outputs.cache-hit }}" != 'true' ]
           then
             echo "true"
           else
             echo "false"
           fi
-
 
       - name: Download Java
         if: steps.cache-validation.outputs.result != 'true'
@@ -54,19 +53,6 @@ jobs:
           echo "armv7" > archive/arch
           ls -la archive
 
-      - name: Caching
-        if: steps.cache-validation.outputs.result != 'true'
-        id: cache-store
-        uses: actions/cache@v2
-        with:
-          path: archive
-          key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_ARM_32 }}    
-          restore-keys: ''
-
-      - name: "Cleanup"
-        if: steps.cache-validation.outputs.result != 'true'
-        run: rm -rf archive
-
   arm64_dependency:
     runs-on: ubuntu-latest
     steps:
@@ -75,13 +61,13 @@ jobs:
         uses: actions/cache@v2
         with:
           key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_ARM_64 }}   
-          path: ./dep/ # download the artifact directly into the static folder
+          path: archive/ # download the artifact directly into the static folder
           restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_ARM_64 }}   
           
       - name: Validate Cache
         id: cache-validation
         run: |
-          if [ -s "./dep/arch" ] && [ "${{ steps.cache-check.outputs.cache-hit }}" != 'true' ]
+          if [ -s "./archive/arch" ] && [ "${{ steps.cache-check.outputs.cache-hit }}" != 'true' ]
           then
             echo "true"
           else
@@ -98,18 +84,6 @@ jobs:
           echo "aarch64" > archive/arch
           ls -la archive
 
-      - name: Caching
-        if: steps.cache-validation.outputs.result != 'true'
-        id: cache-store
-        uses: actions/cache@v2
-        with:
-          path: archive
-          key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_ARM_64 }}        
-          restore-keys: ''
-
-      - name: "Cleanup"
-        if: steps.cache-validation.outputs.result != 'true'
-        run: rm -rf archive
 
   x64_dependency:
     runs-on: ubuntu-latest
@@ -118,14 +92,14 @@ jobs:
         id: cache-check
         uses: actions/cache@v2
         with:
-          path: ./dep/ # download the artifact directly into the static folder
+          path: archive/ # download the artifact directly into the static folder
           key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_x64 }}        
           restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_x64 }}   
           
       - name: Validate Cache
         id: cache-validation
         run: |
-          if [ -s "./dep/arch" ] && [ "${{ steps.cache-check.outputs.cache-hit }}" != 'true' ]
+          if [ -s "./archive/arch" ] && [ "${{ steps.cache-check.outputs.cache-hit }}" != 'true' ]
           then
             echo "true"
           else
@@ -142,14 +116,6 @@ jobs:
           echo "x64" > archive/arch
           ls -la archive
 
-      - name: Caching
-        if: steps.cache-validation.outputs.result != 'true'
-        id: cache-store
-        uses: actions/cache@v2
-        with:
-          path: archive/*
-          key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_x64 }}   
-          restore-keys: ''
 
   dependencies:
     if: 1 == 0 # Always false, so job will be disabled
