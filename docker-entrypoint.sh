@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /bin/bash
 # vim:sw=4:ts=4:et
 
 for var in $(env | grep '^APP_' | cut -d '=' -f1); do
