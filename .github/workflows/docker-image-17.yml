@@ -119,8 +119,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ./dep/ # download the artifact directly into the static folder
-          key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)      
-          restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)
+          key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo '${{ env.SRC_JAVA_17_x64 }}' | md5sum | cut -d' ' -f1)      
+          restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo '${{ env.SRC_JAVA_17_x64 }}' | md5sum | cut -d' ' -f1)
           
       - name: Validate Cache
         id: cache-validation
@@ -148,7 +148,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: archive/*
-          key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)      
+          key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo '${{ env.SRC_JAVA_17_x64 }}' | md5sum | cut -d' ' -f1)      
           restore-keys: ''
 
   dependencies:
@@ -320,8 +320,8 @@ jobs:
       - name: Fetching Java
         uses: actions/cache@v2
         with:
-          key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)
-          restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)
+          key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo '${{ env.SRC_JAVA_17_x64 }}' | md5sum | cut -d' ' -f1)
+          restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo '${{ env.SRC_JAVA_17_x64 }}' | md5sum | cut -d' ' -f1)
           path: ./dep/ # download the artifact directly into the static folder
 
       - name: ls
