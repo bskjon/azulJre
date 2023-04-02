@@ -57,7 +57,7 @@ jobs:
         id: cache-store
         uses: actions/cache@v2
         with:
-          path: archive/*
+          path: archive
           key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_32 }}" | md5sum | cut -d' ' -f1)      
 
       - name: "Cleanup"
@@ -74,8 +74,18 @@ jobs:
           path: ./dep/ # download the artifact directly into the static folder
           restore-keys: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_64 }}" | md5sum | cut -d' ' -f1)
           
+      - name: Validate Cache
+        id: cache-validation
+        run: |
+          if [ -s "file.txt" ] && [ "${{ steps.cache-check.outputs.cache-hit }}" != 'true' ]
+          then
+            echo "true"
+          else
+            echo "false"
+          fi
+
       - name: Download Java
-        if: steps.cache-check.outputs.cache-hit != 'true'
+        if: steps.cache-validation.outputs.result != 'true'
         run: |
           wget -O java17.tar.gz ${{ env.SRC_JAVA_17_ARM_64 }}
           mkdir archive/
@@ -83,16 +93,16 @@ jobs:
           tar -xzf java17.tar.gz --strip-components=1 -C archive/
           echo "aarch64" > archive/arch
 
-      - name: Check if cache exists
-        if: steps.cache-check.outputs.cache-hit != 'true'
+      - name: Caching
+        if: steps.cache-validation.outputs.result != 'true'
         id: cache-store
         uses: actions/cache@v2
         with:
-          path: archive/*
+          path: archive
           key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_64 }}" | md5sum | cut -d' ' -f1)      
 
       - name: "Cleanup"
-        if: steps.cache-check.outputs.cache-hit != 'true'
+        if: steps.cache-validation.outputs.result != 'true'
         run: rm -rf archive
 
   x64_dependency:
@@ -106,8 +116,18 @@ jobs:
           key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)      
           restore-keys: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)
           
+      - name: Validate Cache
+        id: cache-validation
+        run: |
+          if [ -s "file.txt" ] && [ "${{ steps.cache-check.outputs.cache-hit }}" != 'true' ]
+          then
+            echo "true"
+          else
+            echo "false"
+          fi
+
       - name: Download Java
-        if: steps.cache-check.outputs.cache-hit != 'true'
+        if: steps.cache-validation.outputs.result != 'true'
         run: |
           wget -O java17.tar.gz ${{ env.SRC_JAVA_17_x64 }}
           mkdir archive/
@@ -115,16 +135,16 @@ jobs:
           tar -xzf java17.tar.gz --strip-components=1 -C archive/
           echo "x64" > archive/arch
 
-      - name: Check if cache exists
-        if: steps.cache-check.outputs.cache-hit != 'true'
+      - name: Caching
+        if: steps.cache-validation.outputs.result != 'true'
         id: cache-store
         uses: actions/cache@v2
         with:
-          path: archive/*
+          path: archive
           key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)      
 
       - name: "Cleanup"
-        if: steps.cache-check.outputs.cache-hit != 'true'
+        if: steps.cache-validation.outputs.result != 'true'
         run: rm -rf archive
 
   dependencies:
