@@ -20,7 +20,97 @@ env:
 
 
 jobs:
+  arm32_dependency:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if cache exists
+        id: cache-check
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.os }}-cache-java-17-${{ hashString(env.SRC_JAVA_17_ARM_32) }}
+          
+      - name: Download Java
+        if: steps.cache-check.outputs.cache-hit != 'true'
+        run: |
+          wget -O java17.tar.gz ${{ env.SRC_JAVA_17_ARM_32 }}
+          mkdir archive/
+          ls -la
+          tar -xzf java17.tar.gz --strip-components=1 -C archive/
+          echo "armv7" > archive/arch
+
+      - name: Check if cache exists
+        if: steps.cache-check.outputs.cache-hit != 'true'
+        id: cache-store
+        uses: actions/cache@v2
+        with:
+          path: archive/*
+          key: ${{ runner.os }}-cache-java-17-${{ hashString(env.SRC_JAVA_17_ARM_32) }}      
+
+      - name: "Cleanup"
+        if: steps.cache-check.outputs.cache-hit != 'true'
+        run: rm -rf archive
+  arm64_dependency:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if cache exists
+        id: cache-check
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.os }}-cache-java-17-${{ hashString(env.SRC_JAVA_17_ARM_64) }}
+          
+      - name: Download Java
+        if: steps.cache-check.outputs.cache-hit != 'true'
+        run: |
+          wget -O java17.tar.gz ${{ env.SRC_JAVA_17_ARM_64 }}
+          mkdir archive/
+          ls -la
+          tar -xzf java17.tar.gz --strip-components=1 -C archive/
+          echo "aarch64" > archive/arch
+
+      - name: Check if cache exists
+        if: steps.cache-check.outputs.cache-hit != 'true'
+        id: cache-store
+        uses: actions/cache@v2
+        with:
+          path: archive/*
+          key: ${{ runner.os }}-cache-java-17-${{ hashString(env.SRC_JAVA_17_ARM_64) }}      
+
+      - name: "Cleanup"
+        if: steps.cache-check.outputs.cache-hit != 'true'
+        run: rm -rf archive
+
+  x64_dependency:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if cache exists
+        id: cache-check
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.os }}-cache-java-17-${{ hashString(env.SRC_JAVA_17_x64) }}
+          
+      - name: Download Java
+        if: steps.cache-check.outputs.cache-hit != 'true'
+        run: |
+          wget -O java17.tar.gz ${{ env.SRC_JAVA_17_x64 }}
+          mkdir archive/
+          ls -la
+          tar -xzf java17.tar.gz --strip-components=1 -C archive/
+          echo "x64" > archive/arch
+
+      - name: Check if cache exists
+        if: steps.cache-check.outputs.cache-hit != 'true'
+        id: cache-store
+        uses: actions/cache@v2
+        with:
+          path: archive/*
+          key: ${{ runner.os }}-cache-java-17-${{ hashString(env.SRC_JAVA_17_x64) }}      
+
+      - name: "Cleanup"
+        if: steps.cache-check.outputs.cache-hit != 'true'
+        run: rm -rf archive
+
   dependencies:
+    if: 1 == 0 # Always false, so job will be disabled
     runs-on: ubuntu-latest
     steps:
 
@@ -82,17 +172,18 @@ jobs:
 
   Build_a32:
     name: "Build aarch 32"
-    needs: dependencies
+    needs: arm32_dependency
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
       - name: Fetching Java
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/cache@v2
         with:
-          name: ${{ env.ART_JAVA_17_ARM_32 }}
+          key: ${{ runner.os }}-cache-java-17-${{ hashString(env.SRC_JAVA_17_ARM_32) }}
           path: ./dep/ # download the artifact directly into the static folder
+
 
       - name: Docker Setup Buildx
         uses: docker/setup-buildx-action@v2.5.0
@@ -129,16 +220,16 @@ jobs:
 
   Build_a64:
     name: "Build aarch 64"
-    needs: dependencies
+    needs: arm64_dependency
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
       - name: Fetching Java
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/cache@v2
         with:
-          name: ${{ env.ART_JAVA_17_ARM_64 }}
+          key: ${{ runner.os }}-cache-java-17-${{ hashString(env.SRC_JAVA_17_ARM_64) }}
           path: ./dep/ # download the artifact directly into the static folder
 
       - name: Docker Setup Buildx
@@ -176,16 +267,16 @@ jobs:
 
   Build_x64:
     name: "Build x64"
-    needs: dependencies
+    needs: x64_dependency
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
       - name: Fetching Java
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/cache@v2
         with:
-          name: ${{ env.ART_JAVA_17_x64 }}
+          key: ${{ runner.os }}-cache-java-17-${{ hashString(env.SRC_JAVA_17_x64) }}
           path: ./dep/ # download the artifact directly into the static folder
 
       - name: Docker Setup Buildx
