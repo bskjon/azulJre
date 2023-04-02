@@ -50,8 +50,9 @@ jobs:
           ls -la
           tar -xzf java17.tar.gz --strip-components=1 -C archive/
           echo "armv7" > archive/arch
+          ls -la archive
 
-      - name: Check if cache exists
+      - name: Caching
         if: steps.cache-validation.outputs.result != 'true'
         id: cache-store
         uses: actions/cache@v2
