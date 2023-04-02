@@ -1,6 +1,8 @@
 #! /bin/bash
 # vim:sw=4:ts=4:et
 
+echo "==============================================================="
+
 for var in $(env | grep '^APP_' | cut -d '=' -f1); do
     new_var=$(echo "$var" | sed 's/^APP_/REACT_APP_/')
     export "$new_var=${!var}"
@@ -16,7 +18,7 @@ else
     exec 3>/dev/null
 fi
 
-if [ "$1" = "nginx" -o "$1" = "nginx-debug" ]; then
+if [ "$1" = "java" ]; then
     if /usr/bin/find "/docker-entrypoint.d/" -mindepth 1 -maxdepth 1 -type f -print -quit 2>/dev/null | read v; then
         echo >&3 "$0: /docker-entrypoint.d/ is not empty, will attempt to perform configuration"
 
