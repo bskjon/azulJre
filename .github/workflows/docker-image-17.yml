@@ -1,0 +1,211 @@
+name: Java 17 Docker image
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+env:
+  SRC_JAVA_17_ARM_32: 'https://cdn.azul.com/zulu-embedded/bin/zulu17.38.21-ca-jre17.0.5-linux_aarch32hf.tar.gz'
+  SRC_JAVA_17_ARM_64: 'https://cdn.azul.com/zulu/bin/zulu17.40.19-ca-jdk17.0.6-linux_aarch64.tar.gz'
+  SRC_JAVA_17_x64: 'https://cdn.azul.com/zulu/bin/zulu17.38.21-ca-jre17.0.5-linux_x64.tar.gz'
+
+  ART_JAVA_17_ARM_32: 'j17arm32'
+  ART_JAVA_17_ARM_64: 'j17arm64'
+  ART_JAVA_17_x64: 'j17x64'
+
+  DKR_FILE: 'Dockerfile.java17'
+
+
+jobs:
+  dependencies:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: "Aquire Java 17 ARM 32"
+        run: |
+          wget -O java17.tar.gz ${{ env.SRC_JAVA_17_ARM_32 }}
+          mkdir archive
+          tar -xzf java17.tar.gz --strip-components=1 ./archive
+          echo "armv7" > ./archive/arch
+
+      - name: Upload Java 17 ARM 32
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: ${{ env.ART_JAVA_17_ARM_32 }}
+          path: ./archive/*
+          if-no-files-found: error
+
+      - name: "Cleanup ARM 32"
+        run: rm -rf archive
+
+
+      - name: "Aquire Java 17 ARM 64"
+        run: |
+          wget -O java17.tar.gz ${{ env.SRC_JAVA_17_ARM_64 }}
+          mkdir archive
+          tar -xzf java17.tar.gz --strip-components=1 ./archive
+          echo "aarch64" > ./archive/arch
+
+      - name: Upload Java 17 ARM 64
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: ${{ env.ART_JAVA_17_ARM_64 }}
+          path: ./archive/*
+          if-no-files-found: error
+
+      - name: "Cleanup ARM 64"
+        run: rm -rf archive
+
+      - name: "Aquire Java 17 x64"
+        run: |
+          wget -O java17.tar.gz ${{ env.SRC_JAVA_17_x64 }}
+          mkdir archive
+          tar -xzf java17.tar.gz --strip-components=1 ./archive
+          echo "x64" > ./archive/arch
+
+      - name: Upload Java 17 x64
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: ${{ env.ART_JAVA_17_x64 }}
+          path: ./archive/*
+          if-no-files-found: error
+          
+      - name: "Cleanup AMD x64"
+        run: rm -rf archive
+
+
+  Build a32:
+    needs: dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Fetching Java
+        uses: actions/download-artifact@v3.0.1
+        with:
+          name: ${{ env.ART_JAVA_17_ARM_32 }}
+          path: ./dep/ # download the artifact directly into the static folder
+
+
+      - name: Build and verify Docker image for ARM32
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: false
+          tags: |
+             bskjon/azuljava:latest
+             bskjon/azuljava:17
+          platform: linux/arm/v7
+          dockerfile: ${{ env.DKR_FILE }}
+
+      - name: Verify Docker image for ARM32
+        run: docker run --rm bskjon/azuljava:latest java --version
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          username: ${{ secrets.DOCKER_HUB_NAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Push Docker image
+        if: ${{ success() }}
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: |
+             bskjon/azuljava:latest
+             bskjon/azuljava:17
+
+  Build a64:
+    needs: dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Fetching Java
+        uses: actions/download-artifact@v3.0.1
+        with:
+          name: ${{ env.ART_JAVA_17_ARM_64 }}
+          path: ./dep/ # download the artifact directly into the static folder
+
+
+      - name: Build and verify Docker image for ARM64
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: false
+          tags: |
+             bskjon/azuljava:latest
+             bskjon/azuljava:17
+          platform: linux/arm64
+          dockerfile: ${{ env.DKR_FILE }}
+
+      - name: Verify Docker image for ARM64
+        run: docker run --rm bskjon/azuljava:latest java --version
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          username: ${{ secrets.DOCKER_HUB_NAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Push Docker image
+        if: ${{ success() }}
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: |
+             bskjon/azuljava:latest
+             bskjon/azuljava:17
+
+  Build x64:
+    needs: dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Fetching Java
+        uses: actions/download-artifact@v3.0.1
+        with:
+          name: ${{ env.ART_JAVA_17_x64 }}
+          path: ./dep/ # download the artifact directly into the static folder
+
+
+      - name: Build and verify Docker image for x64
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: false
+          tags: |
+             bskjon/azuljava:latest
+             bskjon/azuljava:17
+          platform: linux/amd64
+          dockerfile: ${{ env.DKR_FILE }}
+
+      - name: Verify Docker image for x64
+        run: docker run --rm bskjon/azuljava:latest java --version
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          username: ${{ secrets.DOCKER_HUB_NAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Push Docker image
+        if: ${{ success() }}
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: |
+             bskjon/azuljava:latest
+             bskjon/azuljava:17
+

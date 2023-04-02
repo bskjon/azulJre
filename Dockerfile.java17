@@ -1,10 +1,14 @@
 FROM debian:bullseye-slim
 
 ARG TARGETARCH
+ARG JRE=17
 
 RUN mkdir -p /usr/share/app
 
-COPY dep /dep
+# Creating java folder
+RUN mkdir -p /opt/java/java$JRE/
+
+COPY cp -vrf dep/* /opt/java/java$JRE/
 
 COPY installer.sh /installer.sh
 RUN chmod +x /installer.sh
