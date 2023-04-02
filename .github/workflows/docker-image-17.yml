@@ -28,6 +28,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ./dep/ # download the artifact directly into the static folder
+          key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_32 }}" | md5sum | cut -d' ' -f1)
           restore-keys: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_32 }}" | md5sum | cut -d' ' -f1)
           
       - name: Download Java
@@ -57,6 +58,7 @@ jobs:
         id: cache-check
         uses: actions/cache@v2
         with:
+          key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_64 }}" | md5sum | cut -d' ' -f1)      
           path: ./dep/ # download the artifact directly into the static folder
           restore-keys: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_64 }}" | md5sum | cut -d' ' -f1)
           
@@ -89,6 +91,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ./dep/ # download the artifact directly into the static folder
+          key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)      
           restore-keys: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)
           
       - name: Download Java
@@ -185,6 +188,7 @@ jobs:
         uses: actions/cache@v2
         with:
           key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_32 }}" | md5sum | cut -d' ' -f1)
+          restore-keys: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_32 }}" | md5sum | cut -d' ' -f1)
           path: ./dep/ # download the artifact directly into the static folder
 
 
@@ -233,6 +237,7 @@ jobs:
         uses: actions/cache@v2
         with:
           key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_64 }}" | md5sum | cut -d' ' -f1)
+          restore-keys: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_64 }}" | md5sum | cut -d' ' -f1)
           path: ./dep/ # download the artifact directly into the static folder
 
       - name: Docker Setup Buildx
@@ -280,6 +285,7 @@ jobs:
         uses: actions/cache@v2
         with:
           key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)
+          restore-keys: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)
           path: ./dep/ # download the artifact directly into the static folder
 
       - name: Docker Setup Buildx
