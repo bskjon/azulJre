@@ -29,7 +29,7 @@ jobs:
           wget -O java17.tar.gz ${{ env.SRC_JAVA_17_ARM_32 }}
           mkdir archive/
           ls -la
-          tar -xzf java17.tar.gz --strip-components=1 archive/
+          tar -xzf java17.tar.gz --strip-components=1 -C archive/
           echo "armv7" > archive/arch
 
       - name: Upload Java 17 ARM 32
@@ -46,8 +46,9 @@ jobs:
       - name: "Aquire Java 17 ARM 64"
         run: |
           wget -O java17.tar.gz ${{ env.SRC_JAVA_17_ARM_64 }}
-          mkdir archive
-          tar -xzf java17.tar.gz --strip-components=1 ./archive
+          mkdir archive/
+          ls -la
+          tar -xzf java17.tar.gz --strip-components=1 -C archive/
           echo "aarch64" > ./archive/arch
 
       - name: Upload Java 17 ARM 64
@@ -63,8 +64,9 @@ jobs:
       - name: "Aquire Java 17 x64"
         run: |
           wget -O java17.tar.gz ${{ env.SRC_JAVA_17_x64 }}
-          mkdir archive
-          tar -xzf java17.tar.gz --strip-components=1 ./archive
+          mkdir archive/
+          ls -la
+          tar -xzf java17.tar.gz --strip-components=1 -C archive/
           echo "x64" > ./archive/arch
 
       - name: Upload Java 17 x64
