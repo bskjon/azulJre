@@ -12,6 +12,8 @@ env:
   SRC_JAVA_17_ARM_64: 'https://cdn.azul.com/zulu/bin/zulu17.40.19-ca-jdk17.0.6-linux_aarch64.tar.gz'
   SRC_JAVA_17_x64: 'https://cdn.azul.com/zulu/bin/zulu17.38.21-ca-jre17.0.5-linux_x64.tar.gz'
 
+  CACHE_BASE: '@CacheJ17'
+
   ART_JAVA_17_ARM_32: 'j17arm32'
   ART_JAVA_17_ARM_64: 'j17arm64'
   ART_JAVA_17_x64: 'j17x64'
@@ -28,8 +30,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ./dep/ # download the artifact directly into the static folder
-          key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_32 }}" | md5sum | cut -d' ' -f1)
-          restore-keys: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_32 }}" | md5sum | cut -d' ' -f1)
+          key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_ARM_32 }}" | md5sum | cut -d' ' -f1)
+          restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_ARM_32 }}" | md5sum | cut -d' ' -f1)
           
       - name: Validate Cache
         id: cache-validation
@@ -58,7 +60,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: archive
-          key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_32 }}" | md5sum | cut -d' ' -f1)      
+          key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_ARM_32 }}" | md5sum | cut -d' ' -f1)      
           restore-keys: ''
 
       - name: "Cleanup"
@@ -72,9 +74,9 @@ jobs:
         id: cache-check
         uses: actions/cache@v2
         with:
-          key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_64 }}" | md5sum | cut -d' ' -f1)      
+          key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_ARM_64 }}" | md5sum | cut -d' ' -f1)      
           path: ./dep/ # download the artifact directly into the static folder
-          restore-keys: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_64 }}" | md5sum | cut -d' ' -f1)
+          restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_ARM_64 }}" | md5sum | cut -d' ' -f1)
           
       - name: Validate Cache
         id: cache-validation
@@ -102,7 +104,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: archive
-          key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_64 }}" | md5sum | cut -d' ' -f1)      
+          key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_ARM_64 }}" | md5sum | cut -d' ' -f1)      
           restore-keys: ''
 
       - name: "Cleanup"
@@ -117,8 +119,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ./dep/ # download the artifact directly into the static folder
-          key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)      
-          restore-keys: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)
+          key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)      
+          restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)
           
       - name: Validate Cache
         id: cache-validation
@@ -146,7 +148,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: archive/*
-          key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)      
+          key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)      
           restore-keys: ''
 
   dependencies:
@@ -221,8 +223,8 @@ jobs:
       - name: Fetching Java
         uses: actions/cache@v2
         with:
-          key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_32 }}" | md5sum | cut -d' ' -f1)
-          restore-keys: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_32 }}" | md5sum | cut -d' ' -f1)
+          key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_ARM_32 }}" | md5sum | cut -d' ' -f1)
+          restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_ARM_32 }}" | md5sum | cut -d' ' -f1)
           path: ./dep/ # download the artifact directly into the static folder
 
 
@@ -270,8 +272,8 @@ jobs:
       - name: Fetching Java
         uses: actions/cache@v2
         with:
-          key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_64 }}" | md5sum | cut -d' ' -f1)
-          restore-keys: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_64 }}" | md5sum | cut -d' ' -f1)
+          key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_ARM_64 }}" | md5sum | cut -d' ' -f1)
+          restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_ARM_64 }}" | md5sum | cut -d' ' -f1)
           path: ./dep/ # download the artifact directly into the static folder
 
       - name: Docker Setup Buildx
@@ -318,8 +320,8 @@ jobs:
       - name: Fetching Java
         uses: actions/cache@v2
         with:
-          key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)
-          restore-keys: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)
+          key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)
+          restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)
           path: ./dep/ # download the artifact directly into the static folder
 
       - name: ls
