@@ -105,8 +105,8 @@ jobs:
           tags: |
              bskjon/azuljava:latest
              bskjon/azuljava:17
-          platform: linux/arm/v7
-          dockerfile: ${{ env.DKR_FILE }}
+          platforms: linux/arm/v7
+          file: ${{ env.DKR_FILE }}
 
       - name: Verify Docker image for ARM32
         run: docker run --rm bskjon/azuljava:latest java --version
@@ -152,8 +152,8 @@ jobs:
           tags: |
              bskjon/azuljava:latest
              bskjon/azuljava:17
-          platform: linux/arm64
-          dockerfile: ${{ env.DKR_FILE }}
+          platforms: linux/arm64
+          file: ${{ env.DKR_FILE }}
 
       - name: Verify Docker image for ARM64
         run: docker run --rm bskjon/azuljava:latest java --version
@@ -199,8 +199,8 @@ jobs:
           tags: |
              bskjon/azuljava:latest
              bskjon/azuljava:17
-          platform: linux/amd64
-          dockerfile: ${{ env.DKR_FILE }}
+          platforms: linux/amd64
+          file: ${{ env.DKR_FILE }}
 
       - name: Verify Docker image for x64
         run: docker run --rm bskjon/azuljava:latest java --version
