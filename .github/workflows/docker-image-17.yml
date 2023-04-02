@@ -77,7 +77,8 @@ jobs:
         run: rm -rf archive
 
 
-  Build a32:
+  Build_a32:
+    name: "Build aarch 32"
     needs: dependencies
     runs-on: ubuntu-latest
     steps:
@@ -121,7 +122,8 @@ jobs:
              bskjon/azuljava:latest
              bskjon/azuljava:17
 
-  Build a64:
+  Build_a64:
+    name: "Build aarch 64"
     needs: dependencies
     runs-on: ubuntu-latest
     steps:
@@ -165,7 +167,8 @@ jobs:
              bskjon/azuljava:latest
              bskjon/azuljava:17
 
-  Build x64:
+  Build_x64:
+    name: "Build x64"
     needs: dependencies
     runs-on: ubuntu-latest
     steps:
