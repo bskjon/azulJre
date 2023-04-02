@@ -94,6 +94,7 @@ jobs:
           ls -la
           tar -xzf java17.tar.gz --strip-components=1 -C archive/
           echo "aarch64" > archive/arch
+          ls -la archive
 
       - name: Caching
         if: steps.cache-validation.outputs.result != 'true'
@@ -137,6 +138,7 @@ jobs:
           ls -la
           tar -xzf java17.tar.gz --strip-components=1 -C archive/
           echo "x64" > archive/arch
+          ls -la archive
 
       - name: Caching
         if: steps.cache-validation.outputs.result != 'true'
