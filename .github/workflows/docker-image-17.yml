@@ -60,10 +60,11 @@ jobs:
           path: archive
           key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_ARM_32 }}" | md5sum | cut -d' ' -f1)      
           restore-keys: ''
-          
+
       - name: "Cleanup"
         if: steps.cache-validation.outputs.result != 'true'
         run: rm -rf archive
+
   arm64_dependency:
     runs-on: ubuntu-latest
     steps:
@@ -145,10 +146,6 @@ jobs:
           path: archive
           key: ${{ runner.os }}-cache-java-17-$(echo "${{ env.SRC_JAVA_17_x64 }}" | md5sum | cut -d' ' -f1)      
           restore-keys: ''
-
-      - name: "Cleanup"
-        if: steps.cache-validation.outputs.result != 'true'
-        run: rm -rf archive
 
   dependencies:
     if: 1 == 0 # Always false, so job will be disabled
