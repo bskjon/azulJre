@@ -16,7 +16,7 @@ env:
   ART_JAVA_17_ARM_64: 'j17arm64'
   ART_JAVA_17_x64: 'j17x64'
 
-  DKR_FILE: 'Dockerfile.java17'
+  DKR_FILE: 'Dockerfile-j17'
 
 
 jobs:
