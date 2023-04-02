@@ -27,15 +27,16 @@ jobs:
       - name: "Aquire Java 17 ARM 32"
         run: |
           wget -O java17.tar.gz ${{ env.SRC_JAVA_17_ARM_32 }}
-          mkdir -p ./archive
-          tar -xzf java17.tar.gz --strip-components=1 ./archive/
-          echo "armv7" > ./archive/arch
+          mkdir archive/
+          ls -la
+          tar -xzf java17.tar.gz --strip-components=1 archive/
+          echo "armv7" > archive/arch
 
       - name: Upload Java 17 ARM 32
         uses: actions/upload-artifact@v3.1.1
         with:
           name: ${{ env.ART_JAVA_17_ARM_32 }}
-          path: ./archive/*
+          path: archive/*
           if-no-files-found: error
 
       - name: "Cleanup ARM 32"
