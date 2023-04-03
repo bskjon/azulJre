@@ -8,7 +8,10 @@ RUN mkdir -p /usr/share/app
 # Creating java folder
 RUN mkdir -p /opt/java/java${JRE}
 
-ADD archive/* /opt/java/java${JRE}/
+COPY archive /opt/java/java${JRE}/
+RUN mv /opt/java/java${JRE}/archive/* /opt/java/java${JRE}/ && \
+    rm -r /opt/java/java${JRE}/archive
+
 
 COPY installer.sh /installer.sh
 RUN chmod +x /installer.sh
@@ -29,7 +32,6 @@ RUN chmod +x /docker-entrypoint.sh
 
 ENV AM_I_IN_A_DOCKER_CONTAINER True
 
-RUN rm -r /dep
 
 EXPOSE 8080
 EXPOSE 80
