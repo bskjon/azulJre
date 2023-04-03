@@ -230,7 +230,9 @@ jobs:
           file: ${{ env.DKR_FILE }}
 
       - name: Verify Docker image for ARM32
-        run: docker run --rm bskjon/azuljava:latest-a32 java --version
+        run: |
+          docker images
+          docker run --rm bskjon/azuljava:latest-a32 java --version
 
       - name: Tag Image
         if: ${{ success() }}
