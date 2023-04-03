@@ -39,12 +39,14 @@ jobs:
           if [ -s "archive/arch" ] && [ "${{ steps.cache-check.outputs.cache-hit }}" == 'true' ]
           then
             echo "true"
+            echo "::set-output name=result::true"
           else
             echo "false"
+            echo "::set-output name=result::false"
           fi
 
       - name: Download Java
-        if: steps.cache-validation.outputs.result != true
+        if: steps.cache-validation.outputs.result != 'true'
         run: |
           wget -O java17.tar.gz ${{ env.SRC_JAVA_17_ARM_32 }}
           mkdir archive/
