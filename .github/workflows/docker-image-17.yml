@@ -39,11 +39,14 @@ jobs:
           if [ -s "archive/arch" ] && [ "${{ steps.cache-check.outputs.cache-hit }}" == 'true' ]
           then
             echo "true"
-            echo "::set-output name=result::true"
+            echo "result=true" >> $GITHUB_ENV
           else
             echo "false"
-            echo "::set-output name=result::false"
+            echo "result=false" >> $GITHUB_ENV
           fi
+        outputs:
+          result: ${{ steps.cache-validation.outputs.result }}
+
 
       - name: Download Java
         if: steps.cache-validation.outputs.result != 'true'
