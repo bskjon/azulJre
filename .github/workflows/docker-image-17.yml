@@ -220,13 +220,7 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          docker buildx build \
-            --platform=linux/arm/v7 \ 
-            --progress=plain \ 
-            --no-cache \ 
-            -t bskjon/azuljava:latest-a32 \ 
-            -t bskjon/azuljava:17-a32 \
-            -f ${{ env.DKR_FILE }} . --load
+          docker buildx build --platform=linux/arm/v7 --progress=plain --no-cache -t bskjon/azuljava:latest-a32 -t bskjon/azuljava:17-a32 -f ${{ env.DKR_FILE }} . --load
 
       - name: Verify Docker image for ARM32
         run: |
@@ -274,13 +268,7 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          docker buildx build \
-            --platform=linux/arm/v7 \ 
-            --progress=plain \ 
-            --no-cache \ 
-            -t bskjon/azuljava:latest-a64 \ 
-            -t bskjon/azuljava:17-a64 \
-            -f ${{ env.DKR_FILE }} . --load
+          docker buildx build --platform=linux/arm/v7 --progress=plain --no-cache -t bskjon/azuljava:latest-a64 -t bskjon/azuljava:17-a64 -f ${{ env.DKR_FILE }} . --load
 
       - name: Verify Docker image for ARM64
         run: docker run --rm --offline bskjon/azuljava:latest-a64 java --version
@@ -328,13 +316,7 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          docker buildx build \
-            --platform=linux/arm/v7 \ 
-            --progress=plain \ 
-            --no-cache \ 
-            -t bskjon/azuljava:latest-x64 \ 
-            -t bskjon/azuljava:17-x64 \
-            -f ${{ env.DKR_FILE }} . --load
+          docker buildx build --platform=linux/arm/v7 --progress=plain --no-cache -t bskjon/azuljava:latest-x64 -t bskjon/azuljava:17-x64 -f ${{ env.DKR_FILE }} . --load
 
       - name: Verify Docker image for x64
         run: docker run --rm --offline bskjon/azuljava:latest-x64 java --version
