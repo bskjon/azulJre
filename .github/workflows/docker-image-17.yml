@@ -239,10 +239,6 @@ jobs:
         run: |
           docker image push --all-tags bskjon/azuljava
 
-      - name: Manifest
-        run: |
-          docker manifest create bskjon/azuljava:latest bskjon/azuljava:latest-a32 bskjon/azuljava:latest-arm64
-
   Build_a64:
     name: "Build aarch 64"
     needs: arm64_dependency
