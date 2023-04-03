@@ -4,6 +4,9 @@ mkdir -p /usr/sbin/
 
 echo "Building with => " $TARGETARCH
 
+ls -la /opt/java/java$JRE
+ls -la /opt/java/java$JRE/archive
+
 mv /opt/java/java$JRE/archive/* /opt/java/java$JRE/
 rm -r /opt/java/java$JRE/archive
 
