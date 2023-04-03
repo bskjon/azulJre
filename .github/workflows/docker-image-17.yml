@@ -39,17 +39,17 @@ jobs:
           if [ -s "archive/arch" ] && [ "${{ steps.cache-check.outputs.cache-hit }}" == 'true' ]
           then
             echo "true"
-            echo "result=true" >> $GITHUB_ENV
+            echo "arm32_cache=true" >> $GITHUB_ENV
           else
             echo "false"
-            echo "result=false" >> $GITHUB_ENV
+            echo "arm32_cache=false" >> $GITHUB_ENV
           fi
-        outputs:
-          result: ${{ steps.cache-validation.outputs.result }}
+        env:
+          arm32_cache: ${{ steps.cache-validation.outputs.arm32_cache }}
 
 
       - name: Download Java
-        if: steps.cache-validation.outputs.result != 'true'
+        if: env.arm32_cache != 'true'
         run: |
           wget -O java17.tar.gz ${{ env.SRC_JAVA_17_ARM_32 }}
           mkdir archive/
