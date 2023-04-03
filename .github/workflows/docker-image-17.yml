@@ -233,15 +233,10 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_NAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      - name: Push Docker image
+      - name: Push Image
         if: ${{ success() }}
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: |
-             bskjon/azuljava:latest
-             bskjon/azuljava:17
+        run: |
+          docker push bskjon/azuljava:{latest,17}
 
   Build_a64:
     name: "Build aarch 64"
@@ -281,15 +276,10 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_NAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      - name: Push Docker image
+      - name: Push Image
         if: ${{ success() }}
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: |
-             bskjon/azuljava:latest
-             bskjon/azuljava:17
+        run: |
+          docker push bskjon/azuljava:{latest,17}
 
   Build_x64:
     name: "Build x64"
@@ -335,13 +325,9 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_NAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      - name: Push Docker image
+      - name: Push Image
         if: ${{ success() }}
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: |
-             bskjon/azuljava:latest
-             bskjon/azuljava:17
+        run: |
+          docker push bskjon/azuljava:{latest,17}
+
 

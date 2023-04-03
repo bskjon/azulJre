@@ -5,10 +5,7 @@ mkdir -p /usr/sbin/
 echo "Building with => " $TARGETARCH
 
 ls -la /opt/java/java$JRE
-ls -la /opt/java/java$JRE/archive
 
-mv /opt/java/java$JRE/archive/* /opt/java/java$JRE/
-rm -r /opt/java/java$JRE/archive
 
 if [ -z "$(ls -A -- "/opt/java/java$JRE")" ]; then
     printf "\n\nJava folder is empty!\n\n"
