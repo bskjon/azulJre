@@ -44,7 +44,7 @@ jobs:
           fi
 
       - name: Download Java
-        if: steps.cache-validation.outputs.result != 'true'
+        if: steps.cache-validation.outputs.result != true
         run: |
           wget -O java17.tar.gz ${{ env.SRC_JAVA_17_ARM_32 }}
           mkdir archive/
