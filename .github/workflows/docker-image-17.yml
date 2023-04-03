@@ -236,7 +236,7 @@ jobs:
       - name: Push Image
         if: ${{ success() }}
         run: |
-          docker push bskjon/azuljava:{latest,17}
+          docker image push --all-tags bskjon/azuljava
 
   Build_a64:
     name: "Build aarch 64"
@@ -279,7 +279,7 @@ jobs:
       - name: Push Image
         if: ${{ success() }}
         run: |
-          docker push bskjon/azuljava:{latest,17}
+          docker image push --all-tags bskjon/azuljava
 
   Build_x64:
     name: "Build x64"
@@ -328,6 +328,6 @@ jobs:
       - name: Push Image
         if: ${{ success() }}
         run: |
-          docker push bskjon/azuljava:{latest,17}
+          docker image push --all-tags bskjon/azuljava
 
 
