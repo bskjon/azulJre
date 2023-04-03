@@ -27,7 +27,7 @@ jobs:
     steps:
       - name: Check if cache exists
         id: cache-check
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.8
         with:
           path: archive/ # download the artifact directly into the static folder
           key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_ARM_32 }}
@@ -63,7 +63,7 @@ jobs:
     steps:
       - name: Check if cache exists
         id: cache-check
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.8
         with:
           key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_ARM_64 }}   
           path: archive/ # download the artifact directly into the static folder
@@ -75,12 +75,16 @@ jobs:
           if [ -s "archive/arch" ] && [ "${{ steps.cache-check.outputs.cache-hit }}" == 'true' ]
           then
             echo "true"
+            echo "arm64_cache=true" >> $GITHUB_ENV
           else
             echo "false"
+            echo "arm64_cache=false" >> $GITHUB_ENV
           fi
+        env:
+          arm64_cache: ${{ steps.cache-validation.outputs.arm64_cache }}
 
       - name: Download Java
-        if: steps.cache-validation.outputs.result != 'true'
+        if: env.arm64_cache != 'true'
         run: |
           wget -O java17.tar.gz ${{ env.SRC_JAVA_17_ARM_64 }}
           mkdir archive/
@@ -95,7 +99,7 @@ jobs:
     steps:
       - name: Check if cache exists
         id: cache-check
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.8
         with:
           path: archive/ # download the artifact directly into the static folder
           key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_x64 }}        
@@ -107,12 +111,16 @@ jobs:
           if [ -s "archive/arch" ] && [ "${{ steps.cache-check.outputs.cache-hit }}" == 'true' ]
           then
             echo "true"
+            echo "x64_cache=true" >> $GITHUB_ENV
           else
             echo "false"
+            echo "x64_cache=false" >> $GITHUB_ENV
           fi
+        env:
+          x64_cache: ${{ steps.cache-validation.outputs.x64_cache }}
 
       - name: Download Java
-        if: steps.cache-validation.outputs.result != 'true'
+        if: env.x64_cache != 'true'
         run: |
           wget -O java17.tar.gz ${{ env.SRC_JAVA_17_x64 }}
           mkdir archive/
@@ -192,7 +200,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Fetching Java
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.8
         with:
           key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_ARM_32 }}   
           restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_ARM_32 }}  
@@ -241,7 +249,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Fetching Java
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.8
         with:
           key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_ARM_64 }}  
           restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_ARM_64 }}  
@@ -289,10 +297,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Fetching Java
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.8
         with:
           key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_x64 }}   
-          restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_x64 }}   
+          #restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_x64 }}   
           path: ./dep/ # download the artifact directly into the static folder
 
       - name: ls
