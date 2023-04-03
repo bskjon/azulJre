@@ -36,7 +36,7 @@ jobs:
       - name: Validate Cache
         id: cache-validation
         run: |
-          if [ -s "./archive/arch" ] && [ "${{ steps.cache-check.outputs.cache-hit }}" != 'true' ]
+          if [ -s "archive/arch" ] && [ "${{ steps.cache-check.outputs.cache-hit }}" == 'true' ]
           then
             echo "true"
           else
@@ -67,7 +67,7 @@ jobs:
       - name: Validate Cache
         id: cache-validation
         run: |
-          if [ -s "./archive/arch" ] && [ "${{ steps.cache-check.outputs.cache-hit }}" != 'true' ]
+          if [ -s "archive/arch" ] && [ "${{ steps.cache-check.outputs.cache-hit }}" == 'true' ]
           then
             echo "true"
           else
@@ -99,7 +99,7 @@ jobs:
       - name: Validate Cache
         id: cache-validation
         run: |
-          if [ -s "./archive/arch" ] && [ "${{ steps.cache-check.outputs.cache-hit }}" != 'true' ]
+          if [ -s "archive/arch" ] && [ "${{ steps.cache-check.outputs.cache-hit }}" == 'true' ]
           then
             echo "true"
           else
