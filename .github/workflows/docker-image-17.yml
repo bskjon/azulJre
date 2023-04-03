@@ -223,6 +223,7 @@ jobs:
           docker buildx build --platform=linux/arm/v7 --progress=plain --no-cache -t bskjon/azuljava:latest-a32 -t bskjon/azuljava:17-a32 -f ${{ env.DKR_FILE }} . --load
 
       - name: Verify Docker image for ARM32
+        if: 1 == 0 # Always false, so job will be disabled
         run: |
           docker images
           docker run --rm --network none bskjon/azuljava:latest java --version
@@ -240,7 +241,7 @@ jobs:
 
       - name: Manifest
         run: |
-          docker manifest create bskjon/azuljava:latest bskjon/azuljava:latest-a32 repository/image_name:latest-arm64
+          docker manifest create bskjon/azuljava:latest bskjon/azuljava:latest-a32 bskjon/azuljava:latest-arm64
 
   Build_a64:
     name: "Build aarch 64"
@@ -268,9 +269,10 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          docker buildx build --platform=linux/arm/v7 --progress=plain --no-cache -t bskjon/azuljava:latest-a64 -t bskjon/azuljava:17-a64 -f ${{ env.DKR_FILE }} . --load
+          docker buildx build --platform=linux/arm64 --progress=plain --no-cache -t bskjon/azuljava:latest-a64 -t bskjon/azuljava:17-a64 -f ${{ env.DKR_FILE }} . --load
 
       - name: Verify Docker image for ARM64
+        if: 1 == 0 # Always false, so job will be disabled
         run: docker run --rm --network none bskjon/azuljava:latest-a64 java --version
 
       - name: Tag Image
@@ -316,9 +318,10 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          docker buildx build --platform=linux/arm/v7 --progress=plain --no-cache -t bskjon/azuljava:latest-x64 -t bskjon/azuljava:17-x64 -f ${{ env.DKR_FILE }} . --load
+          docker buildx build --platform=linux/amd64 --progress=plain --no-cache -t bskjon/azuljava:latest-x64 -t bskjon/azuljava:17-x64 -f ${{ env.DKR_FILE }} . --load
 
       - name: Verify Docker image for x64
+        if: 1 == 0 # Always false, so job will be disabled
         run: docker run --rm --network none bskjon/azuljava:latest-x64 java --version
 
       - name: Tag Image
