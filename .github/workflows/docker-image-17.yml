@@ -232,7 +232,7 @@ jobs:
       - name: Verify Docker image for ARM32
         run: |
           docker images
-          docker run --rm bskjon/azuljava:latest-a32 java --version
+          docker run --rm bskjon/azuljava:latest java --version
 
       - name: Tag Image
         if: ${{ success() }}
