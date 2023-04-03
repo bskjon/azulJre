@@ -347,11 +347,12 @@ jobs:
            bskjon/azuljava:17-a64 \
            bskjon/azuljava:17-a32
 
-          docker manifest annotate bskjon/azuljava:latest-a32 --os linux --arch arm --variant v7
-          docker manifest annotate bskjon/azuljava:17-a32 --os linux --arch arm --variant v7
+          docker manifest annotate bskjon/azuljava:latest --os linux --arch arm --variant v7 bskjon/azuljava:latest-a32
+          docker manifest annotate bskjon/azuljava:17 --os linux --arch arm --variant v7 bskjon/azuljava:17-a32
 
-          docker manifest annotate bskjon/azuljava:latest-a64 --os linux --arch arm64
-          docker manifest annotate bskjon/azuljava:17-a64 --os linux --arch arm64
+          docker manifest annotate bskjon/azuljava:latest --os linux --arch arm64 bskjon/azuljava:latest-a64
+          docker manifest annotate bskjon/azuljava:17 --os linux --arch arm64 bskjon/azuljava:17-a64
+
 
           docker manifest push bskjon/azuljava:latest
           docker manifest push bskjon/azuljava:17
