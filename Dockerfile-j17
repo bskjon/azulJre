@@ -8,8 +8,7 @@ RUN mkdir -p /usr/share/app
 # Creating java folder
 RUN mkdir -p /opt/java/java${JRE}
 
-
-COPY archive /opt/java/java${JRE}/
+ADD archive/* /opt/java/java${JRE}/
 
 COPY installer.sh /installer.sh
 RUN chmod +x /installer.sh
