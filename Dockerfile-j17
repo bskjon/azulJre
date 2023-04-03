@@ -9,8 +9,8 @@ RUN mkdir -p /usr/share/app
 RUN mkdir -p /opt/java/java${JRE}
 
 COPY archive /opt/java/java${JRE}/
-RUN mv /opt/java/java${JRE}/archive/* /opt/java/java${JRE}/ && \
-    rm -r /opt/java/java${JRE}/archive
+RUN mv /opt/java/java${JRE}/archive/* /opt/java/java${JRE}/
+RUN rm -r /opt/java/java${JRE}/archive
 
 
 COPY installer.sh /installer.sh

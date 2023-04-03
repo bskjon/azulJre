@@ -23,6 +23,7 @@ env:
 
 jobs:
   arm32_dependency:
+    name: "ARM 32 Dependency"
     runs-on: ubuntu-latest
     steps:
       - name: Check if cache exists
@@ -59,6 +60,7 @@ jobs:
           ls -la archive
 
   arm64_dependency:
+    name: "ARM 64 Dependency"
     runs-on: ubuntu-latest
     steps:
       - name: Check if cache exists
@@ -95,6 +97,7 @@ jobs:
 
 
   x64_dependency:
+    name: "x64 Dependency"
     runs-on: ubuntu-latest
     steps:
       - name: Check if cache exists
