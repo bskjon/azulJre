@@ -204,7 +204,7 @@ jobs:
         with:
           key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_ARM_32 }}   
           restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_ARM_32 }}  
-          path: ./dep/ # download the artifact directly into the static folder
+          path: archive/ # download the artifact directly into the static folder
 
 
       - name: Docker Setup Buildx
@@ -253,7 +253,7 @@ jobs:
         with:
           key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_ARM_64 }}  
           restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_ARM_64 }}  
-          path: ./dep/ # download the artifact directly into the static folder
+          path: archive/ # download the artifact directly into the static folder
 
       - name: Docker Setup Buildx
         uses: docker/setup-buildx-action@v2.5.0
@@ -301,7 +301,7 @@ jobs:
         with:
           key: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_x64 }}   
           #restore-keys: ${{ runner.os }}-cache-${{ env.CACHE_BASE }}-${{ env.CACHE_JAVA_17_x64 }}   
-          path: ./dep/ # download the artifact directly into the static folder
+          path: archive/ # download the artifact directly into the static folder
 
       - name: ls
         run: | 
