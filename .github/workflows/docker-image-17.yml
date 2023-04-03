@@ -219,8 +219,8 @@ jobs:
           context: .
           push: false
           tags: |
-             bskjon/azuljava:latest
-             bskjon/azuljava:17
+             bskjon/azuljava:latest-a32
+             bskjon/azuljava:17-a32
           platforms: linux/arm/v7
           file: ${{ env.DKR_FILE }}
 
@@ -236,7 +236,13 @@ jobs:
       - name: Push Image
         if: ${{ success() }}
         run: |
+          docker tag bskjon/azuljava:latest-a32 bskjon/azuljava:latest
+          docker tag bskjon/azuljava:17-a32 bskjon/azuljava:17
           docker image push --all-tags bskjon/azuljava
+
+      - name: Manifest
+        run: |
+          docker manifest create bskjon/azuljava:latest bskjon/azuljava:latest-a32 repository/image_name:latest-arm64
 
   Build_a64:
     name: "Build aarch 64"
@@ -262,8 +268,8 @@ jobs:
           context: .
           push: false
           tags: |
-             bskjon/azuljava:latest
-             bskjon/azuljava:17
+             bskjon/azuljava:latest-a64
+             bskjon/azuljava:17-a64
           platforms: linux/arm64
           file: ${{ env.DKR_FILE }}
 
@@ -279,6 +285,8 @@ jobs:
       - name: Push Image
         if: ${{ success() }}
         run: |
+          docker tag bskjon/azuljava:latest-a64 bskjon/azuljava:latest
+          docker tag bskjon/azuljava:17-a64 bskjon/azuljava:17
           docker image push --all-tags bskjon/azuljava
 
   Build_x64:
@@ -311,8 +319,8 @@ jobs:
           context: .
           push: false
           tags: |
-             bskjon/azuljava:latest
-             bskjon/azuljava:17
+             bskjon/azuljava:latest-x64
+             bskjon/azuljava:17-x64
           platforms: linux/amd64
           file: ${{ env.DKR_FILE }}
 
@@ -328,6 +336,33 @@ jobs:
       - name: Push Image
         if: ${{ success() }}
         run: |
+          docker tag bskjon/azuljava:latest-x64 bskjon/azuljava:latest
+          docker tag bskjon/azuljava:17-x64 bskjon/azuljava:17
           docker image push --all-tags bskjon/azuljava
 
+  Manifest:
+    needs: [Build_a32, Build_a64, Build_x64]
+    name: Manifest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup and Publish Manifest
+        run: |
+          docker manifest create bskjon/azuljava:latest \
+           bskjon/azuljava:latest-x64 \
+           bskjon/azuljava:latest-a64 \
+           bskjon/azuljava:latest-a32
+
+          docker manifest create bskjon/azuljava:17 \
+           bskjon/azuljava:17-x64 \
+           bskjon/azuljava:17-a64 \
+           bskjon/azuljava:17-a32
+
+          docker manifest annotate bskjon/azuljava:latest-a32 --os linux --arch arm --variant v7
+          docker manifest annotate bskjon/azuljava:17-a32 --os linux --arch arm --variant v7
+
+          docker manifest annotate bskjon/azuljava:latest-a64 --os linux --arch arm64
+          docker manifest annotate bskjon/azuljava:17-a64 --os linux --arch arm64
+
+          docker manifest push bskjon/azuljava:latest
+          docker manifest push bskjon/azuljava:17
 
