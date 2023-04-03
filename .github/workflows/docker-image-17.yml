@@ -226,13 +226,12 @@ jobs:
             --no-cache \ 
             -t bskjon/azuljava:latest-a32 \ 
             -t bskjon/azuljava:17-a32 \
-            . \
-            -f ${{ env.DKR_FILE }}
+            . -f ${{ env.DKR_FILE }}
 
       - name: Verify Docker image for ARM32
         run: |
           docker images
-          docker run --rm bskjon/azuljava:latest java --version
+          docker run --rm --offline bskjon/azuljava:latest java --version
 
       - name: Tag Image
         if: ${{ success() }}
@@ -281,11 +280,10 @@ jobs:
             --no-cache \ 
             -t bskjon/azuljava:latest-a64 \ 
             -t bskjon/azuljava:17-a64 \
-            . \
-            -f ${{ env.DKR_FILE }}
+            . -f ${{ env.DKR_FILE }}
 
       - name: Verify Docker image for ARM64
-        run: docker run --rm bskjon/azuljava:latest-a64 java --version
+        run: docker run --rm --offline bskjon/azuljava:latest-a64 java --version
 
       - name: Tag Image
         if: ${{ success() }}
@@ -336,11 +334,10 @@ jobs:
             --no-cache \ 
             -t bskjon/azuljava:latest-x64 \ 
             -t bskjon/azuljava:17-x64 \
-            . \
-            -f ${{ env.DKR_FILE }}
+            . -f ${{ env.DKR_FILE }}
 
       - name: Verify Docker image for x64
-        run: docker run --rm bskjon/azuljava:latest-x64 java --version
+        run: docker run --rm --offline bskjon/azuljava:latest-x64 java --version
 
       - name: Tag Image
         if: ${{ success() }}
