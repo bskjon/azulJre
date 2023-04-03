@@ -224,8 +224,8 @@ jobs:
           context: .
           push: false
           tags: |
-             bskjon/azuljava:latest-a32
-             bskjon/azuljava:17-a32
+             bskjon/azuljava:latest
+             bskjon/azuljava:17
           platforms: linux/arm/v7
           file: ${{ env.DKR_FILE }}
 
