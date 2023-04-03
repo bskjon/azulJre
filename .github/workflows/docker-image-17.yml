@@ -226,9 +226,7 @@ jobs:
             --no-cache \ 
             -t bskjon/azuljava:latest-a32 \ 
             -t bskjon/azuljava:17-a32 \
-            -f ${{ env.DKR_FILE }} \
-            . \
-            --load
+            -f ${{ env.DKR_FILE }} . --load
 
       - name: Verify Docker image for ARM32
         run: |
@@ -282,9 +280,7 @@ jobs:
             --no-cache \ 
             -t bskjon/azuljava:latest-a64 \ 
             -t bskjon/azuljava:17-a64 \
-            -f ${{ env.DKR_FILE }} \
-            . \
-            --load
+            -f ${{ env.DKR_FILE }} . --load
 
       - name: Verify Docker image for ARM64
         run: docker run --rm --offline bskjon/azuljava:latest-a64 java --version
@@ -338,9 +334,7 @@ jobs:
             --no-cache \ 
             -t bskjon/azuljava:latest-x64 \ 
             -t bskjon/azuljava:17-x64 \
-            -f ${{ env.DKR_FILE }} \
-            . \
-            --load
+            -f ${{ env.DKR_FILE }} . --load
 
       - name: Verify Docker image for x64
         run: docker run --rm --offline bskjon/azuljava:latest-x64 java --version
